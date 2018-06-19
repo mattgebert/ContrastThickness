@@ -1,6 +1,7 @@
 clc;clear;close all;
-% img = imread('Wafer04_Flake01_100x.jpg');
-img = imread('testImg.jpg');
+% img = imread('Wafer04_Flake01_100x.jpg');Wafer05_Flake02_100x
+img = imread('Wafer05_Flake02_100xColour.jpg');
+% img = imread('testImg.jpg');
 img = im2double(img);
 r = img(:,:,1);
 g = img(:,:,2);
