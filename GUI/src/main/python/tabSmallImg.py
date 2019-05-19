@@ -1,5 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from os import walk
+import os
+from contrast_processing import *
+import numpy as np
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
 
 class tab4k(object):
     def setup4KTab(self, tabWidget, centralWidget):
@@ -48,21 +53,29 @@ class tab4k(object):
         self.checkBox = QtWidgets.QCheckBox(self.widget)
         self.checkBox.setChecked(True)
         self.checkBox.setObjectName("checkBox")
+        self.checkBox.setEnabled(False)
         self.file_manage_btns_hlayout.addWidget(self.checkBox)
         self.remove_files_btn = QtWidgets.QPushButton(self.widget)
         self.remove_files_btn.setObjectName("remove_files_btn")
+        self.remove_files_btn.setEnabled(False)
         self.file_manage_btns_hlayout.addWidget(self.remove_files_btn)
         self.refresh_files_btn = QtWidgets.QPushButton(self.widget)
         self.refresh_files_btn.setObjectName("refresh_files_btn")
         self.file_manage_btns_hlayout.addWidget(self.refresh_files_btn)
         self.file_management_hlayout.addLayout(self.file_manage_btns_hlayout)
         self.verticalLayout_2.addLayout(self.file_management_hlayout)
-        self.file_listView = QtWidgets.QListView(self.widget)
-        self.file_listView.setObjectName("file_listView")
-        self.verticalLayout_2.addWidget(self.file_listView)
+
+        self.file_tableView = QtWidgets.QTableView(self.widget)
+        self.file_tableView.setObjectName("file_tableView")
+        self.file_tableView.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+        self.file_tableView.horizontalHeader().setStretchLastSection(True)
+        self.file_tableView.setSelectionBehavior(QtWidgets.QTableView.SelectRows);
+        self.verticalLayout_2.addWidget(self.file_tableView)
+
         self.file_filter_text = QtWidgets.QLineEdit(self.widget)
         self.file_filter_text.setText("")
         self.file_filter_text.setObjectName("file_filter_text")
+        self.file_filter_text.setEnabled(False)
         self.verticalLayout_2.addWidget(self.file_filter_text)
         self.inputFile_vlayout.addLayout(self.verticalLayout_2)
         self.processing_hlayout.addLayout(self.inputFile_vlayout)
@@ -90,63 +103,6 @@ class tab4k(object):
         self.img_settings_tabWidget = QtWidgets.QTabWidget(self.widget)
         self.img_settings_tabWidget.setObjectName("img_settings_tabWidget")
 
-        # Img Backround / Contrast Tab
-        self.background_tab = QtWidgets.QWidget()
-        self.background_tab.setObjectName("background_tab")
-        self.widget1 = QtWidgets.QWidget(self.background_tab)
-        self.widget1.setGeometry(QtCore.QRect(0, 0, 521, 271))
-        self.widget1.setObjectName("widget1")
-        self.hlayout = QtWidgets.QHBoxLayout(self.widget1)
-        self.hlayout.setContentsMargins(0, 0, 0, 0)
-        self.hlayout.setObjectName("hlayout")
-        self.groupBox = QtWidgets.QGroupBox(self.widget1)
-        self.groupBox.setObjectName("groupBox")
-        self.widget2 = QtWidgets.QWidget(self.groupBox)
-        self.widget2.setGeometry(QtCore.QRect(0, 20, 105, 141))
-        self.widget2.setObjectName("widget2")
-        self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.widget2)
-        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_15.setObjectName("verticalLayout_15")
-        self.bkgnd_rb_mode = QtWidgets.QRadioButton(self.widget2)
-        self.bkgnd_rb_mode.setObjectName("bkgnd_rb_mode")
-        self.verticalLayout_15.addWidget(self.bkgnd_rb_mode)
-        self.bkgnd_rb_median = QtWidgets.QRadioButton(self.widget2)
-        self.bkgnd_rb_median.setObjectName("bkgnd_rb_median")
-        self.verticalLayout_15.addWidget(self.bkgnd_rb_median)
-        self.verticalLayout_17 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_17.setObjectName("verticalLayout_17")
-        self.bkgnd_rb_rgb = QtWidgets.QRadioButton(self.widget2)
-        self.bkgnd_rb_rgb.setObjectName("bkgnd_rb_rgb")
-        self.verticalLayout_17.addWidget(self.bkgnd_rb_rgb)
-        self.verticalLayout_16 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_16.setObjectName("verticalLayout_16")
-        self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_16.setObjectName("horizontalLayout_16")
-        self.label_14 = QtWidgets.QLabel(self.widget2)
-        self.label_14.setObjectName("label_14")
-        self.horizontalLayout_16.addWidget(self.label_14)
-        self.rgb_value_display = QtWidgets.QLineEdit(self.widget2)
-        self.rgb_value_display.setReadOnly(True)
-        self.rgb_value_display.setObjectName("rgb_value_display")
-        self.horizontalLayout_16.addWidget(self.rgb_value_display)
-        self.verticalLayout_16.addLayout(self.horizontalLayout_16)
-        self.rgb_colour_pick_btn = QtWidgets.QPushButton(self.widget2)
-        self.rgb_colour_pick_btn.setObjectName("rgb_colour_pick_btn")
-        self.verticalLayout_16.addWidget(self.rgb_colour_pick_btn)
-        self.verticalLayout_17.addLayout(self.verticalLayout_16)
-        self.verticalLayout_15.addLayout(self.verticalLayout_17)
-        self.hlayout.addWidget(self.groupBox)
-        self.verticalLayout_18 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_18.setObjectName("verticalLayout_18")
-        self.label_15 = QtWidgets.QLabel(self.widget1)
-        self.label_15.setObjectName("label_15")
-        self.verticalLayout_18.addWidget(self.label_15)
-        self.graphicsView_5 = QtWidgets.QGraphicsView(self.widget1)
-        self.graphicsView_5.setObjectName("graphicsView_5")
-        self.verticalLayout_18.addWidget(self.graphicsView_5)
-        self.hlayout.addLayout(self.verticalLayout_18)
-        self.img_settings_tabWidget.addTab(self.background_tab, "")
-
         # Img RGB Greyscale Tab
         self.rgb_tab = QtWidgets.QWidget()
         self.rgb_tab.setObjectName("rgb_tab")
@@ -164,9 +120,9 @@ class tab4k(object):
         self.label_6.setObjectName("label_6")
         self.vlayout.addWidget(self.label_6)
         self.grayscale_slider_r = QtWidgets.QSlider(self.horizontalLayoutWidget_8)
-        self.grayscale_slider_r.setMaximum(255)
-        self.grayscale_slider_r.setProperty("value", 255)
-        self.grayscale_slider_r.setSliderPosition(255)
+        self.grayscale_slider_r.setMaximum(100)
+        self.grayscale_slider_r.setProperty("value", 100)
+        self.grayscale_slider_r.setSliderPosition(100)
         self.grayscale_slider_r.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_r.setObjectName("grayscale_slider_r")
         self.vlayout.addWidget(self.grayscale_slider_r)
@@ -177,9 +133,9 @@ class tab4k(object):
         self.label_8.setObjectName("label_8")
         self.verticalLayout_9.addWidget(self.label_8)
         self.grayscale_slider_g = QtWidgets.QSlider(self.horizontalLayoutWidget_8)
-        self.grayscale_slider_g.setMaximum(255)
-        self.grayscale_slider_g.setProperty("value", 255)
-        self.grayscale_slider_g.setSliderPosition(255)
+        self.grayscale_slider_g.setMaximum(100)
+        self.grayscale_slider_g.setProperty("value", 100)
+        self.grayscale_slider_g.setSliderPosition(100)
         self.grayscale_slider_g.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_g.setObjectName("grayscale_slider_g")
         self.verticalLayout_9.addWidget(self.grayscale_slider_g)
@@ -190,9 +146,9 @@ class tab4k(object):
         self.label_7.setObjectName("label_7")
         self.verticalLayout_8.addWidget(self.label_7)
         self.grayscale_slider_b = QtWidgets.QSlider(self.horizontalLayoutWidget_8)
-        self.grayscale_slider_b.setMaximum(255)
-        self.grayscale_slider_b.setProperty("value", 255)
-        self.grayscale_slider_b.setSliderPosition(255)
+        self.grayscale_slider_b.setMaximum(100)
+        self.grayscale_slider_b.setProperty("value", 100)
+        self.grayscale_slider_b.setSliderPosition(100)
         self.grayscale_slider_b.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_b.setObjectName("grayscale_slider_b")
         self.verticalLayout_8.addWidget(self.grayscale_slider_b)
@@ -208,6 +164,71 @@ class tab4k(object):
         self.grayscale_vlayout.addWidget(self.grayscale_img_preview)
         self.hlayout_2.addLayout(self.grayscale_vlayout)
         self.img_settings_tabWidget.addTab(self.rgb_tab, "")
+
+        # Img Backround / Contrast Tab
+        self.background_tab = QtWidgets.QWidget()
+        self.background_tab.setObjectName("background_tab")
+        self.widget1 = QtWidgets.QWidget(self.background_tab)
+        self.widget1.setGeometry(QtCore.QRect(0, 0, 521, 271))
+        self.widget1.setObjectName("widget1")
+        self.hlayout = QtWidgets.QHBoxLayout(self.widget1)
+        self.hlayout.setContentsMargins(0, 0, 0, 0)
+        self.hlayout.setObjectName("hlayout")
+        self.groupBox = QtWidgets.QGroupBox(self.widget1)
+        self.groupBox.setObjectName("groupBox")
+        self.widget2 = QtWidgets.QWidget(self.groupBox)
+        self.widget2.setGeometry(QtCore.QRect(10, 30, 140, 145))
+        self.widget2.setObjectName("widget2")
+        self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.widget2)
+        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_15.setObjectName("verticalLayout_15")
+        self.bkgnd_rb_mode = QtWidgets.QRadioButton(self.widget2)
+        self.bkgnd_rb_mode.setObjectName("bkgnd_rb_mode")
+        self.bkgnd_rb_mode.setChecked(True)
+        self.verticalLayout_15.addWidget(self.bkgnd_rb_mode)
+        self.bkgnd_rb_median = QtWidgets.QRadioButton(self.widget2)
+        self.bkgnd_rb_median.setObjectName("bkgnd_rb_median")
+        self.verticalLayout_15.addWidget(self.bkgnd_rb_median)
+        self.verticalLayout_17 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_17.setObjectName("verticalLayout_17")
+        self.bkgnd_rb_rgb = QtWidgets.QRadioButton(self.widget2)
+        self.bkgnd_rb_rgb.setObjectName("bkgnd_rb_rgb")
+        self.verticalLayout_17.addWidget(self.bkgnd_rb_rgb)
+        self.verticalLayout_16 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_16.setObjectName("verticalLayout_16")
+        self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_16.setObjectName("horizontalLayout_16")
+        self.label_14 = QtWidgets.QLabel(self.widget2)
+        self.label_14.setObjectName("label_14")
+        self.horizontalLayout_16.addWidget(self.label_14)
+
+        self.rgb_value_display = QtWidgets.QLineEdit(self.widget2)
+        self.rgb_value_display.setObjectName("rgb_value_display")
+        self.rgb_value_display.setReadOnly(True)
+        self.rgb_value_display.setEnabled(False)
+        self.horizontalLayout_16.addWidget(self.rgb_value_display)
+
+        self.verticalLayout_16.addLayout(self.horizontalLayout_16)
+        self.rgb_colour_pick_btn = QtWidgets.QPushButton(self.widget2)
+        self.rgb_colour_pick_btn.setObjectName("rgb_colour_pick_btn")
+        self.rgb_colour_pick_btn.setEnabled(False)
+        self.verticalLayout_16.addWidget(self.rgb_colour_pick_btn)
+        self.verticalLayout_17.addLayout(self.verticalLayout_16)
+        self.verticalLayout_15.addLayout(self.verticalLayout_17)
+        self.hlayout.addWidget(self.groupBox)
+        self.verticalLayout_18 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_18.setObjectName("verticalLayout_18")
+        self.label_15 = QtWidgets.QLabel(self.widget1)
+        self.label_15.setObjectName("label_15")
+        self.verticalLayout_18.addWidget(self.label_15)
+        # self.contrast_img_preview = QtWidgets.QGraphicsView(self.widget1)
+        # self.contrast_img_preview.setObjectName("contrast_img_preview")
+        self.contrast_img_preview = ContrastImagingCanvas()
+        self.contrast_img_preview.setObjectName("contrast_img_preview")
+        self.verticalLayout_18.addWidget(self.contrast_img_preview)
+        self.hlayout.addLayout(self.verticalLayout_18)
+        self.img_settings_tabWidget.addTab(self.background_tab, "")
+
 
         # Img Thresholding Tab
         self.threshold_tab = QtWidgets.QWidget()
@@ -248,7 +269,9 @@ class tab4k(object):
         self.img_settings_tabWidget.addTab(self.threshold_tab, "")
         self.image_settings_vlayout.addWidget(self.img_settings_tabWidget)
         self.image_vlayout.addLayout(self.image_settings_vlayout)
-        self.img_settings_tabWidget.setCurrentIndex(2)
+
+        # Set the Tab Index:
+        self.img_settings_tabWidget.setCurrentIndex(0)
 
         # Input/Output Image Previews
         self.image_previews = QtWidgets.QHBoxLayout()
@@ -334,7 +357,7 @@ class tab4k(object):
         self.bkgnd_rb_mode.setText(_translate("MainWindow", "Mode"))
         self.bkgnd_rb_median.setText(_translate("MainWindow", "Median"))
         self.bkgnd_rb_rgb.setText(_translate("MainWindow", "Custom RGB"))
-        self.label_14.setText(_translate("MainWindow", "rgb"))
+        self.label_14.setText(_translate("MainWindow", "rgba"))
         self.rgb_colour_pick_btn.setText(_translate("MainWindow", "Colour Picker"))
         self.label_15.setText(_translate("MainWindow", "Contrast Image Preview"))
         self.img_settings_tabWidget.setTabText(self.img_settings_tabWidget.indexOf(self.background_tab), _translate("MainWindow", "Background and Contrast"))
@@ -359,7 +382,38 @@ class tab4k(object):
 
     def setupConnections(self):
         self.input_dir_select_btn.clicked.connect(self.selectDir)
-        self.refresh_files_btn.clicked.connect(self.refreshImgs)
+        self.refresh_files_btn.clicked.connect(self.refreshFromDir)
+        self.file_tableView.clicked.connect(self.onFileSelect)
+        self.threshold_enable.stateChanged.connect(self.changedThresholdEnable)
+        self.rgb_colour_pick_btn.clicked.connect(self.getBackgroundColour)
+        self.grayscale_slider_r.sliderReleased.connect(self.RGBsliderUpdate)
+        self.grayscale_slider_g.sliderReleased.connect(self.RGBsliderUpdate)
+        self.grayscale_slider_b.sliderReleased.connect(self.RGBsliderUpdate)
+        self.bkgnd_rb_rgb.toggled.connect(self.backgroundModeChange)
+        self.bkgnd_rb_median.toggled.connect(self.backgroundModeChange)
+        self.bkgnd_rb_mode.toggled.connect(self.backgroundModeChange)
+        # self.bkgnd_rb_mean.toggled.connect(self.backgroundModeChange)
+
+
+    def getBackgroundColour(self):
+        self.rgb_colour_val = QtWidgets.QColorDialog.getColor()
+        self.rgb_value_display.setText(str(self.rgb_colour_val.getRgb()))
+        palette = QtGui.QPalette()
+        palette.setColor(QtGui.QPalette.Base, self.rgb_colour_val)
+        palette.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+        self.rgb_value_display.setPalette(palette)
+
+    # def background_method_change(self):
+        # if self.bkgnd_rb_rgb.isChecked():
+
+
+    def changedThresholdEnable(self):
+        if self.threshold_enable.isChecked():
+            self.save_contrast_img.setEnabled(True)
+            self.save_distribution_img.setEnabled(True)
+        else:
+            self.save_contrast_img.setEnabled(False)
+            self.save_distribution_img.setEnabled(False)
 
     def selectDir(self):
         # Get user input for folder
@@ -367,27 +421,142 @@ class tab4k(object):
         self.input_dir_display.setText(dir)
         self.locateImgs(dir)
 
-    def refreshImgs(self):
+    def refreshFromDir(self):
         txt = self.input_dir_display.text()
         if txt != "":
             self.locateImgs(txt)
 
     def locateImgs(self,dir):
         # Replace current filelist with new filelist:
-        self.imagefile_set = QtGui.QStandardItemModel(self.file_listView)
-        self.file_listView.setModel(self.imagefile_set)
-        # self.imagefile_set = QtCore.QStringListModel(self.file_listView)
+        self.imagefile_set = QtGui.QStandardItemModel(self.file_tableView)
+        # self.imagefile_set = QtCore.QStringListModel(self.file_tableView)
 
         # Walk path to get all image files:
         filetypes = ['png', 'jpg', 'bmp']
-        for (dirpath, dirnames, filenames) in walk(dir):
+        for (dirpath, dirnames, filenames) in os.walk(dir):
             for file in filenames:
                 if file.split(".")[-1] in filetypes:
                     d = QtGui.QStandardItem(dirpath)
                     f = QtGui.QStandardItem(file)
-                    f.setCheckable(True)
-                    self.imagefile_set.appendRow([f,d])
+                    self.imagefile_set.appendRow([d,f])
 
-                    # rows = self.imagefile_set.rowCount()
-                    # self.imagefile_set.insertRow(rows)
-                    # self.imagefile_set.setData(self.imagefile_set.index(rows),file)
+        self.imagefile_set.setHorizontalHeaderLabels(['Directory','Filename'])
+        self.file_tableView.setModel(self.imagefile_set)
+
+    def backgroundModeChange(self):
+        if self.bkgnd_rb_rgb.isChecked():
+            # self.verticalLayout_16.setEnabled(False)
+            self.rgb_colour_pick_btn.setEnabled(True)
+            self.rgb_value_display.setEnabled(True)
+        else:
+            # self.verticalLayout_16.setEnabled(True)
+            self.rgb_colour_pick_btn.setEnabled(False)
+            self.rgb_value_display.setEnabled(False)
+        # Because of toggle, generate new contrast preview image.
+        self.generateContrastImage()
+
+    def onFileSelect(self):
+        currentSelection = self.file_tableView.selectionModel()
+        if currentSelection.hasSelection():
+            lastSelectedRowIndex = currentSelection.selectedRows()[-1].row()
+            directory = self.imagefile_set.item(lastSelectedRowIndex,0).text()
+            filename = self.imagefile_set.item(lastSelectedRowIndex,1).text()
+            filepath = os.path.join(directory, filename)
+            # Load Image
+            self.loadInputImgPreview(filepath)
+            # Create Grayscale Preview
+            cr = self.grayscale_slider_r.value()
+            cg = self.grayscale_slider_g.value()
+            cb = self.grayscale_slider_b.value()
+            self.grayImgData = create_Grayscale(filepath, cr, cg, cb)
+            # Draw Grayscale Preview
+            grayImg = Image.fromarray( np.asarray( np.clip(self.grayImgData,0,255), dtype="uint8"), "L" )
+            grayImg = ImageQt.ImageQt(grayImg)
+            self.drawGrayscaleImagePreview(grayImg)
+            # Generate
+            self.generateContrastImage()
+
+        else:
+            # Clear Canvas
+            self.clearInputImgPreview()
+            self.clearGrayscaleImgPreview()
+            self.clearContrastImgPreview()
+
+
+    def generateContrastImage(self):
+        # Get background selection:
+        if self.bkgnd_rb_mode.isChecked():
+            backgroundValue = background_Mode(self.grayImgData)
+        elif self.bkgnd_rb_median.isChecked():
+            backgroundValue = background_Median(self.grayImgData)
+        # elif self.bkgnd_rb_mean.isChecked():
+            # background_mean(self.grayImgData)
+        elif self.bkgnd_rb_rgb.isChecked():
+            backgroundValue = self.rgb_colour_val.getRgb()
+            # Convert to gray
+            cr = self.grayscale_slider_r.value()
+            cg = self.grayscale_slider_g.value()
+            cb = self.grayscale_slider_b.value()
+            backgroundValue = backgroundValue[0]*cr + backgroundValue[1]*cg + backgroundValue[2]*cb / (cr + cg + cb)
+
+        # Create Contrast Image Preview
+        self.contrastImgData = create_Contrast(self.grayImgData, backgroundValue)
+        # Draw Contrast Image Preview
+                        # self.contrast_img_preview_figure = create_Contrast_Matplotlib(self.contrastImgData)
+                        # self.contrast_img_preview = FigureCanvas(fig)
+                        # self.contrast_img_preview.setSizePolicy(QtWidgets.QSizePolicy.Expanding,QtWidgets.QSizePolicy.Expanding)
+                        # self.contrast_img_preview.updateGeometry()
+                        # self.contrast_img_preview.draw()
+                        # size = canvas.size()
+                        # width, height = size.width(), size.height()
+                        # self.contrast_img_preview = canvas
+        self.contrast_img_preview.setContrastData(self.contrastImgData)
+        # im = QtGui.QImage(canvas.buffer_rgba(), width, height, QtGui.QImage.Format_ARGB32)
+        # print(im.size())
+        # self.drawContrastImagePreview(im)
+
+    def RGBsliderUpdate(self):
+        # Behaviour is the same for generating a preview image.
+        self.onFileSelect()
+
+    def drawContrastImagePreview(self, QIm):
+        scene = QtWidgets.QGraphicsScene()
+        image = QtGui.QPixmap.fromImage(QIm)
+        item = QtWidgets.QGraphicsPixmapItem(image)
+        scene.addItem(item)
+        self.contrast_img_preview.setScene(scene)
+        self.contrast_img_preview.fitInView(scene.itemsBoundingRect(), QtCore.Qt.KeepAspectRatio)
+
+    def clearContrastImgPreview(self):
+        scene = QtWidgets.QGraphicsScene()
+        self.contrast.setScene(scene)
+
+    def clearGrayscaleImgPreview(self):
+        scene = QtWidgets.QGraphicsScene()
+        self.grayscale_img_preview.setScene(scene)
+
+    def drawGrayscaleImagePreview(self, QIm):
+        scene = QtWidgets.QGraphicsScene()
+        image = QtGui.QPixmap.fromImage(QIm)
+        item = QtWidgets.QGraphicsPixmapItem(image)
+        scene.addItem(item)
+        self.grayscale_img_preview.setScene(scene)
+        self.grayscale_img_preview.fitInView(scene.itemsBoundingRect(), QtCore.Qt.KeepAspectRatio)
+
+    def clearInputImgPreview(self):
+        scene = QtWidgets.QGraphicsScene()
+        self.input_img_preview.setScene(scene)
+
+    # from PyQt5.QtGui import QIcon, QPixmap
+    def loadInputImgPreview(self, filepath):
+        scene = QtWidgets.QGraphicsScene()
+        # image = QtGui.QImage(directory + "/" + filename) //Need to chage to QImage later for manipulation.
+        image = QtGui.QPixmap(filepath)
+        item = QtWidgets.QGraphicsPixmapItem(image)
+        scene.addItem(item)
+
+        self.input_img_preview.setScene(scene)
+        self.input_img_preview.fitInView(scene.itemsBoundingRect(), QtCore.Qt.KeepAspectRatio)
+
+        # Smooth zooming:
+        # https://wiki.qt.io/Smooth_Zoom_In_QGraphicsView

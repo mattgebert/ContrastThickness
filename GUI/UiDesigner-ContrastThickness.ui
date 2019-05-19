@@ -30,7 +30,7 @@
      <attribute name="title">
       <string>Images (&lt;4K)</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -116,7 +116,7 @@
               </layout>
              </item>
              <item>
-              <widget class="QListView" name="file_listView"/>
+              <widget class="QTableView" name="file_tableView"/>
              </item>
              <item>
               <widget class="QLineEdit" name="file_filter_text">
@@ -173,7 +173,7 @@
                 <attribute name="title">
                  <string>Background and Contrast</string>
                 </attribute>
-                <widget class="QWidget" name="">
+                <widget class="QWidget" name="layoutWidget">
                  <property name="geometry">
                   <rect>
                    <x>0</x>
@@ -188,7 +188,7 @@
                     <property name="title">
                      <string>Select Background:</string>
                     </property>
-                    <widget class="QWidget" name="">
+                    <widget class="QWidget" name="layoutWidget">
                      <property name="geometry">
                       <rect>
                        <x>0</x>

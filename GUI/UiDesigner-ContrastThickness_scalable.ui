@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1175</width>
+    <height>872</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="Image4K_Tab">
+       <attribute name="title">
+        <string>Images (&lt;4K)</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_14" stretch="0,0">
+          <item>
+           <layout class="QHBoxLayout" name="processing_hlayout" stretch="3,9">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetDefaultConstraint</enum>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <layout class="QHBoxLayout" name="input_dir_hlayout">
+                  <item>
+                   <widget class="QPushButton" name="input_dir_select_btn">
+                    <property name="text">
+                     <string>Open Directory...</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="input_dir_display">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Directory...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="file_management_hlayout">
+                  <item>
+                   <widget class="QLabel" name="file_list_label">
+                    <property name="text">
+                     <string>File list:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="file_manage_btns_hlayout">
+                    <item>
+                     <widget class="QCheckBox" name="checkBox">
+                      <property name="text">
+                       <string>Inc. Subdir's</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="remove_files_btn">
+                      <property name="text">
+                       <string>Remove Selected</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="refresh_files_btn">
+                      <property name="text">
+                       <string>Refresh from Dir.</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QTableView" name="file_tableView"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="file_filter_text">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Filter files...</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="image_vlayout" stretch="0,0">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="image_settings_vlayout">
+                <item>
+                 <layout class="QHBoxLayout" name="img_settings_title_hlayout">
+                  <item alignment="Qt::AlignLeft">
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Global Settings</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignRight">
+                   <widget class="QPushButton" name="img_settings_save_btn">
+                    <property name="text">
+                     <string>Save Settings</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignRight">
+                   <widget class="QPushButton" name="img_settings_load_btn">
+                    <property name="text">
+                     <string>Load Settings</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QTabWidget" name="img_settings_tabWidget">
+                  <property name="currentIndex">
+                   <number>1</number>
+                  </property>
+                  <widget class="QWidget" name="rgb_tab">
+                   <attribute name="title">
+                    <string>RGB to Grayscale</string>
+                   </attribute>
+                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                    <item>
+                     <layout class="QHBoxLayout" name="hlayout_2">
+                      <item>
+                       <layout class="QHBoxLayout" name="hlayout_3">
+                        <item>
+                         <layout class="QVBoxLayout" name="vlayout">
+                          <item>
+                           <widget class="QLabel" name="label_6">
+                            <property name="text">
+                             <string>Red</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSlider" name="grayscale_slider_r">
+                            <property name="maximum">
+                             <number>255</number>
+                            </property>
+                            <property name="value">
+                             <number>255</number>
+                            </property>
+                            <property name="sliderPosition">
+                             <number>255</number>
+                            </property>
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_9">
+                          <item>
+                           <widget class="QLabel" name="label_8">
+                            <property name="text">
+                             <string>Green</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSlider" name="grayscale_slider_g">
+                            <property name="maximum">
+                             <number>255</number>
+                            </property>
+                            <property name="value">
+                             <number>255</number>
+                            </property>
+                            <property name="sliderPosition">
+                             <number>255</number>
+                            </property>
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_8">
+                          <item>
+                           <widget class="QLabel" name="label_7">
+                            <property name="text">
+                             <string>Blue</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSlider" name="grayscale_slider_b">
+                            <property name="maximum">
+                             <number>255</number>
+                            </property>
+                            <property name="value">
+                             <number>255</number>
+                            </property>
+                            <property name="sliderPosition">
+                             <number>255</number>
+                            </property>
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="grayscale_vlayout">
+                        <item>
+                         <widget class="QLabel" name="label_9">
+                          <property name="text">
+                           <string>Grayscale Image:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QGraphicsView" name="grayscale_img_preview"/>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QWidget" name="background_tab">
+                   <attribute name="title">
+                    <string>Background and Contrast</string>
+                   </attribute>
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <item>
+                     <layout class="QHBoxLayout" name="hlayout">
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_15" stretch="4,1">
+                        <item>
+                         <widget class="QGroupBox" name="groupBox">
+                          <property name="title">
+                           <string>Select Background:</string>
+                          </property>
+                          <widget class="QWidget" name="layoutWidget">
+                           <property name="geometry">
+                            <rect>
+                             <x>0</x>
+                             <y>20</y>
+                             <width>160</width>
+                             <height>181</height>
+                            </rect>
+                           </property>
+                           <layout class="QVBoxLayout" name="verticalLayout_4">
+                            <item>
+                             <widget class="QRadioButton" name="bkgnd_rb_mode">
+                              <property name="text">
+                               <string>Mode</string>
+                              </property>
+                              <property name="checked">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QRadioButton" name="bkgnd_rb_median">
+                              <property name="text">
+                               <string>Median</string>
+                              </property>
+                              <property name="checked">
+                               <bool>true</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QRadioButton" name="bkgnd_rb_mean">
+                              <property name="text">
+                               <string>Mean</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QVBoxLayout" name="verticalLayout_17">
+                              <item>
+                               <widget class="QRadioButton" name="bkgnd_rb_rgb">
+                                <property name="text">
+                                 <string>Custom RGB</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <layout class="QVBoxLayout" name="verticalLayout_16">
+                                <item>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                                  <item>
+                                   <widget class="QLabel" name="label_14">
+                                    <property name="text">
+                                     <string>rgb</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLineEdit" name="rgb_value_display">
+                                    <property name="readOnly">
+                                     <bool>true</bool>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </item>
+                                <item>
+                                 <widget class="QPushButton" name="rgb_colour_pick_btn">
+                                  <property name="text">
+                                   <string>Colour Picker</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                               </layout>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <spacer name="verticalSpacer_2">
+                              <property name="orientation">
+                               <enum>Qt::Vertical</enum>
+                              </property>
+                              <property name="sizeHint" stdset="0">
+                               <size>
+                                <width>20</width>
+                                <height>40</height>
+                               </size>
+                              </property>
+                             </spacer>
+                            </item>
+                           </layout>
+                          </widget>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,1">
+                          <item>
+                           <widget class="QLabel" name="label">
+                            <property name="text">
+                             <string>Colourmap:</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QComboBox" name="colormap_combo_box"/>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_18">
+                        <item>
+                         <widget class="QLabel" name="label_15">
+                          <property name="text">
+                           <string>Contrast Image Preview</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QGraphicsView" name="contrast_img_preview"/>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QWidget" name="threshold_tab">
+                   <attribute name="title">
+                    <string>Thresholding</string>
+                   </attribute>
+                   <layout class="QVBoxLayout" name="verticalLayout_10">
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_12">
+                        <item>
+                         <widget class="QLabel" name="label_11">
+                          <property name="text">
+                           <string>Threshold Range</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="threshold_lower">
+                          <property name="readOnly">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QSlider" name="threshold_range_widget">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="threshold_upper">
+                          <property name="readOnly">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_5">
+                        <item>
+                         <widget class="QLabel" name="label_10">
+                          <property name="text">
+                           <string>Contrast Distribution</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QGraphicsView" name="threshold_img_preview"/>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_3">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="image_previews">
+                <item>
+                 <layout class="QVBoxLayout" name="input_img_vlayout">
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Image Input Preview</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGraphicsView" name="input_img_preview"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="output_img_vlayout">
+                  <item>
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>Image Output Preview</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGraphicsView" name="output_img_preview"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="output_hlayout">
+            <item>
+             <widget class="QLabel" name="output_label">
+              <property name="text">
+               <string>Output:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="output_folder_hlayout">
+              <item>
+               <widget class="QPushButton" name="output_folder_select_btn">
+                <property name="text">
+                 <string>Select</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="output_folder_display">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="placeholderText">
+                 <string>Output folder...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="threshold_options_vlayout">
+              <item>
+               <widget class="QCheckBox" name="threshold_enable">
+                <property name="text">
+                 <string>Thresholding Enabled</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="threshold_ifenabled_options">
+                <item>
+                 <widget class="QCheckBox" name="save_distribution_img">
+                  <property name="text">
+                   <string>Save Contrast Distribution</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="save_contrast_img">
+                  <property name="text">
+                   <string>Save Contrast Image</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="start_process">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Start Process</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>762</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1175</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
