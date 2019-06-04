@@ -123,7 +123,7 @@ class tab4k(object):
         self.grayscale_slider_r = QtWidgets.QSlider(self.rgb_tab)
         self.grayscale_slider_r.setMaximum(100)
         self.grayscale_slider_r.setProperty("value", 100)
-        self.grayscale_slider_r.setSliderPosition(100)
+        self.grayscale_slider_r.setSliderPosition(29.89)
         self.grayscale_slider_r.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_r.setObjectName("grayscale_slider_r")
         self.vlayout.addWidget(self.grayscale_slider_r)
@@ -136,7 +136,7 @@ class tab4k(object):
         self.grayscale_slider_g = QtWidgets.QSlider(self.rgb_tab)
         self.grayscale_slider_g.setMaximum(100)
         self.grayscale_slider_g.setProperty("value", 100)
-        self.grayscale_slider_g.setSliderPosition(100)
+        self.grayscale_slider_g.setSliderPosition(58.7)
         self.grayscale_slider_g.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_g.setObjectName("grayscale_slider_g")
         self.verticalLayout_9.addWidget(self.grayscale_slider_g)
@@ -149,7 +149,7 @@ class tab4k(object):
         self.grayscale_slider_b = QtWidgets.QSlider(self.rgb_tab)
         self.grayscale_slider_b.setMaximum(100)
         self.grayscale_slider_b.setProperty("value", 100)
-        self.grayscale_slider_b.setSliderPosition(100)
+        self.grayscale_slider_b.setSliderPosition(11.4)
         self.grayscale_slider_b.setOrientation(QtCore.Qt.Vertical)
         self.grayscale_slider_b.setObjectName("grayscale_slider_b")
         self.verticalLayout_8.addWidget(self.grayscale_slider_b)
@@ -575,10 +575,10 @@ class tab4k(object):
             cb = self.grayscale_slider_b.value()
             self.grayImgData = create_Grayscale(filepath, cr, cg, cb)
             # Draw Grayscale Preview
-            grayImg = Image.fromarray( np.asarray( np.clip(self.grayImgData,0,255), dtype="uint8"), "L" )
+            grayImg = Image.fromarray( np.asarray( np.clip(self.grayImgData,0,1)*256, dtype="uint8"), "L" )
             grayImg = ImageQt.ImageQt(grayImg)
             self.drawGrayscaleImagePreview(grayImg)
-            # Generate
+            # Generate contrast image and histogram
             self.generateContrastImage()
             self.generateThresholdHist()
         else:
@@ -620,7 +620,14 @@ class tab4k(object):
             y2 = int(np.round(qrect.bottom()))
             x1 = int(np.round(qrect.left()))
             x2 = int(np.round(qrect.right()))
-            subsetData = self.contrastImgData[np.ix_([y1,y2],[x1,x2])]
+            if y2 > y1:
+                subsetData = self.contrastImgData[y1:y2,:]
+            else:
+                subsetData = self.contrastImgData[y2:y1,:]
+            if x2 > x1:
+                subsetData = subsetData[:,x1:x2]
+            else:
+                subsetData = subsetData[:,x2:x1]
             self.threshold_img_preview.setContrastData(subsetData)
         return
 

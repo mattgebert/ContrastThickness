@@ -13,7 +13,9 @@ def create_Grayscale(filepath, r,g,b):
     # filepath = "/home/matt/Pictures/16463120_788476604634688_6606740959182586163_o.jpg"
     img = Image.open(filepath)
     img.load()
-    data = np.asarray(img,dtype="int32")
+    # Convert to double precision
+    data = np.asarray(img,dtype="int32") / 256.0
+
     # Create grayscale array:
     sum = r+g+b
     if sum == 0:
@@ -40,7 +42,9 @@ def background_Mean(grayscale_data):
     return np.mean(grayscale_data)
 
 def create_Contrast(grayscale_data, background_value):
-    contrast_data = (grayscale_data - background_value) / (255-background_value)
+    print(grayscale_data)
+    contrast_data = (grayscale_data - background_value) / (1-background_value)
+    print(contrast_data)
     return contrast_data
 
 def create_Contrast_Matplotlib(contrast_data):
@@ -477,7 +481,10 @@ class DrawableContrastCanvas(QtWidgets.QGraphicsView):
                 self.releaseLoc = mousePos
                 # Check if same coordinate as press:
                 if self.releaseLoc == self.pressLoc:
-                    self.scene.removeItem(self.rect_item)
+                    try:
+                        self.scene.removeItem(self.rect_item)
+                    except AttributeError:
+                        pass
                     self.rectangleCleared.emit(self)
                 else:
                     self.rect_item.setRect(QtCore.QRectF(self.pressLoc,self.releaseLoc))
@@ -580,14 +587,21 @@ class ThresholdHistCanvas(FigureCanvas):
         self.axes.cla()
         self.axes.set_visible(True)
 
+        print("data " + str(contrast_data))
         vals = np.reshape(contrast_data,(contrast_data.shape[0]*contrast_data.shape[1],1))
-        range = np.ptp(vals)
-        desiredBinsPerPointOne = 16
-        totalBins = int(np.floor(range/0.1 * desiredBinsPerPointOne))
-        # print(totalBins)
+        try:
+            range = np.ptp(vals)
+            print("range " + str(range))
+            desiredBinsPerWidth = 20
+            width = 0.1
+            totalBins = int(np.floor(range/width * desiredBinsPerWidth))
+            # totalBins = 256
+            print(totalBins)
 
-        cf = self.axes.hist(vals, bins=totalBins)
+            cf = self.axes.hist(vals, bins=totalBins)
 
-        #Hide pixel coordinates of image.
-        self.axes.get_yaxis().set_ticks([])
-        self.draw()
+            #Hide pixel coordinates of image.
+            self.axes.get_yaxis().set_ticks([])
+            self.draw()
+        except ValueError:
+            self.axes.set_visible(False)
