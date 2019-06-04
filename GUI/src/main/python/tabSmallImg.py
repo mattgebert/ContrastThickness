@@ -471,6 +471,8 @@ class tab4k(object):
         self.bkgnd_rb_median.toggled.connect(self.backgroundModeChange)
         self.bkgnd_rb_mode.toggled.connect(self.backgroundModeChange)
         self.bkgnd_rb_mean.toggled.connect(self.backgroundModeChange)
+        self.hist_input_select_graphicsView.rectangleDefined.connect(self.updateHistFromRect)
+        self.hist_input_select_graphicsView.rectangleCleared.connect(self.resetHist)
         # self.grayscale_img_preview.onResizeEvent.connect(self.drawGrayscaleImagePreviewResize)
 
 
@@ -611,6 +613,20 @@ class tab4k(object):
         # Also draw contrast image preview in drawable widget
         self.generateDrawableContrastImage()
 
+    def updateHistFromRect(self):
+        if self.contrastImgData is not None:
+            qrect = self.hist_input_select_graphicsView.getRectCoords()
+            y1 = int(np.round(qrect.top()))
+            y2 = int(np.round(qrect.bottom()))
+            x1 = int(np.round(qrect.left()))
+            x2 = int(np.round(qrect.right()))
+            subsetData = self.contrastImgData[np.ix_([y1,y2],[x1,x2])]
+            self.threshold_img_preview.setContrastData(subsetData)
+        return
+
+    def resetHist(self):
+        self.generateThresholdHist()
+        return
 
     def generateThresholdHist(self):
         # get threshold settings selection
